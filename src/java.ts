@@ -1,4 +1,5 @@
 import { filepaths } from "@fig/autocomplete-generators";
+
 const completionSpec: Fig.Spec = {
   name: "java",
   description: "Launch a Java application",
@@ -17,13 +18,48 @@ const completionSpec: Fig.Spec = {
       description: "To launch the main class in a JAR file",
       args: {
         name: "JAR file",
-        generators: filepaths({ extensions: ["jar"] }),
+        suggestions: [
+          {
+            displayName: "api-services",
+            insertValue:
+              "~/.m2/repository/com/fundrise/api-services/1.0.0-SNAPSHOT/api-services-1.0.0-SNAPSHOT.jar",
+          },
+          {
+            displayName: "oauth",
+            insertValue:
+              "~/.m2/repository/com/fundrise/oauth-token-services/1.0.0-SNAPSHOT/oauth-token-services-1.0.0-SNAPSHOT.jar",
+          },
+          {
+            displayName: "performance-services",
+            insertValue:
+              "~/repos/performance-services/performance-services/target/performance-services.jar",
+          },
+        ],
       },
     },
     {
-      name: "-D",
+      name: "-Dspring.profiles.active",
       priority: 98,
-      description: "Set a system property, -D<NAME>=<VALUE>",
+      description: "Set a system property, -Dspring.profiles.active=<VALUE>",
+      requiresSeparator: true,
+      args: {
+        name: "profile",
+        suggestions: [
+          {
+            displayName: "api-services",
+            insertValue:
+              "api-docs,local,disable-recaptcha-3,static-2fa-code,static-signup-key",
+          },
+          {
+            displayName: "performance-services",
+            insertValue: "api-docs,local",
+          },
+          {
+            displayName: "oauth",
+            insertValue: "disable-recaptcha-3,static-2fa-code,local",
+          },
+        ],
+      },
     },
     {
       name: ["--help", "-h", "-?"],
